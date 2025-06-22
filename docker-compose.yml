@@ -5,23 +5,29 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rpENafFkaevsnJWE3ihLuORe3n  # root password
-      MYSQL_DATABASE: dbcmc7ibbbe00029ykc14ve0v1s      # your DB name
-      MYSQL_USER: ucmc7ibbbc00009ykc2yak0dd0           # normal user
-      MYSQL_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq         # user password
+      MYSQL_ROOT_PASSWORD: rpENafFkaevsnJWE3ihLuORe3n
+      MYSQL_DATABASE: dbcmc7ibbbe00029ykc14ve0v1s
+      MYSQL_USER: ucmc7ibbbc00009ykc2yak0dd0
+      MYSQL_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   wordpress:
     image: wordpress:latest
     restart: always
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
-      - "8080:80"  # maps your local port 8080 to container's port 80
+      - "8080:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: ucmc7ibbbc00009ykc2yak0dd0
+      WORDPRESS_DB_USER: ucmc7bbc00009ykc2yak0dd0
       WORDPRESS_DB_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq
       WORDPRESS_DB_NAME: dbcmc7ibbbe00029ykc14ve0v1s
     volumes:
