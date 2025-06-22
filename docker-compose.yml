@@ -1,16 +1,32 @@
 version: "3.8"
 
 services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rpENafFkaevsnJWE3ihLuORe3n  # root password
+      MYSQL_DATABASE: dbcmc7ibbbe00029ykc14ve0v1s      # your DB name
+      MYSQL_USER: ucmc7ibbbc00009ykc2yak0dd0           # normal user
+      MYSQL_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq         # user password
+    volumes:
+      - db_data:/var/lib/mysql
+
   wordpress:
     image: wordpress:latest
     restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:80"  # maps your local port 8080 to container's port 80
     environment:
-      WORDPRESS_DB_HOST: cmc7ibbbf0000kc9yf1f2buag:9000  # Your external DB host and port
-      WORDPRESS_DB_USER: ucmc7ibbbc00009ykc2yak0dd0       # Root user
-      WORDPRESS_DB_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq  # Root password
-      WORDPRESS_DB_NAME: dbcmc7ibbbe00029ykc14ve0v1s       # Your DB name
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ucmc7ibbbc00009ykc2yak0dd0
+      WORDPRESS_DB_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq
+      WORDPRESS_DB_NAME: dbcmc7ibbbe00029ykc14ve0v1s
     volumes:
       - wordpress_data:/var/www/html
 
 volumes:
+  db_data:
   wordpress_data:
