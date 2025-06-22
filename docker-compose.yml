@@ -5,26 +5,12 @@ services:
     image: wordpress:latest
     restart: always
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: wppass
-      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_DB_HOST: cmc7ibbbf0000kc9yf1f2buag:3306  # Your external DB host and port
+      WORDPRESS_DB_USER: cmc7ibbbd00019ykc5rdv2ggh       # Root user
+      WORDPRESS_DB_PASSWORD: rpENafFkaevsnJWE3ihLuORe3n  # Root password
+      WORDPRESS_DB_NAME: cmc7ibbbe00029ykc14ve0v1s       # Your DB name
     volumes:
       - wordpress_data:/var/www/html
-    depends_on:
-      - db
-
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: wpdb
-      MYSQL_USER: wpuser
-      MYSQL_PASSWORD: wppass
-      MYSQL_ROOT_PASSWORD: rootpass
-    volumes:
-      - db_data:/var/lib/mysql
 
 volumes:
   wordpress_data:
-  db_data:
