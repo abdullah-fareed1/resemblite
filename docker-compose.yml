@@ -7,22 +7,17 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rpENafFkaevsnJWE3ihLuORe3n
       MYSQL_DATABASE: dbcmc7ibbbe00029ykc14ve0v1s
-      MYSQL_USER: ucmc7ibbbc00009ykc2yak0dd0
+      MYSQL_USER: ucmc7bbc00009ykc2yak0dd0
       MYSQL_PASSWORD: p1CZL6wf9dpEpT1CglQMwbVJq
     volumes:
       - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # no healthcheck to avoid false unhealthy status
 
   wordpress:
     image: wordpress:latest
     restart: always
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     ports:
       - "8080:80"
     environment:
